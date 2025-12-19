@@ -1,24 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# ## Widget
-# 
-# ---
+# ##############
+# ### Widget ###
+# ##############
 
 # This is the main class for the `Widget` type.  
 # It offers the following functions & variables to all future Widgets:
-# 
+
 #  - **TODO**: write list
 
-# ---
-# ---
 
-# ### Imports
-# 
-# ---
-
-# In[ ]:
-
+# ### Imports ###
 
 import curses
 
@@ -29,12 +19,7 @@ from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
 
 
-# ### Settings
-# 
-# ---
-
-# In[ ]:
-
+# ### Settings ###
 
 class WidgetSetting:
     def __init__(self,
@@ -76,12 +61,7 @@ class WidgetSetting:
         #self.has_formatting = has_formatting # FIXME: What is thie meant to do? Maybe if format_text should be called?
 
 
-# ### Infos
-# 
-# ---
-
-# In[ ]:
-
+# ### Infos ###
 
 class WidgetInformations:
     def __init__(self):
@@ -94,12 +74,7 @@ class WidgetInformations:
         self.can_tick = False
 
 
-# ### Results
-# 
-# ---
-
-# In[ ]:
-
+# ### Results ###
 
 class WidgetTickResult:
     def __init__(self, widget_id:str, keypress:int, selected_component:int=None) -> None:
@@ -107,21 +82,12 @@ class WidgetTickResult:
         self.keypress = keypress
         self.selected_component = selected_component
 
-
-# In[ ]:
-
-
 class FunctionTickResult:
     def __init__(self, return_value) -> None:
         self.return_value = return_value
 
 
-# ### Main class
-# 
-# ---
-
-# In[ ]:
-
+# ### Main class ###
 
 class Widget:
     widget_type = "<Typename not set>"
@@ -359,4 +325,3 @@ class Widget:
 
     def change_text(self, new_text:str) -> None:
         self.text = new_text
-

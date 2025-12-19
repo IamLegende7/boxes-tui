@@ -45,16 +45,6 @@ I am sure I can make something useful this time!
 | Global variables          | SCREAMING_CASE |
 | Classes                   | CamelCase      |
 
-### Jupyter
-
----
-
-This project uses Jupyter (iPython notebooks (.ipynb files)) for some larger modules.  
-To convert them to python source code (.py files), simply run `convert.sh` (or execute the `Export All Jupyter Notebooks` VSCode task; that will do the same thing).
-
-> [!Note]
-> All changes to the "compiled" python files will be lost upon calling `convert.sh`; always change the notebooks, not the python files!
-
 ### AI
 
 ---

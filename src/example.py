@@ -4,13 +4,15 @@ from boxes_tui.widgets import Label, VerticalLayout, Box
 from boxes_tui.logger import LogLevel, log
 from boxes_tui.inputs import KeybindList
 
+import os
+
 def my_function():
     """ Use this to get the named colours currently initialised """
     log(LogLevel.DEBUG, f'{SHARED_VARS["COLOURS"]}')
 
 def main():
     status_label = Label(
-        text="HI!",
+        text=f"//§bold§//boxes_tui's //§C:green§//{os.path.basename(__file__)}.   //§§//Last pressed key: //§C:blue,bold§//-None-",
         widget_id="status_label"
     )
     status_box = Box(
@@ -42,22 +44,20 @@ def main():
     )
     big_menu = VerticalLayout(
         components = [status_box, my_box],
-        widget_id="big_menu",
-        window = "default",
-        keybinds = KeybindList(
-            ((ord("W"), ord("w")), "menu_function_up",   "Selects the last component of the Menu."),
-            ((ord("S"), ord("s")), "menu_function_down", "Selects the next component of the Menu.")
+        widget_id="big_menu",   # id
+        window = "default",     # use default window
+        keybinds = KeybindList( # custom keybinds
+        #    ((ord("W"), ord("w")), "menu_function_up",   "Selects the last component of the Menu."),
+        #    ((ord("S"), ord("s")), "menu_function_down", "Selects the next component of the Menu.")
         ),
         selected=1
     )
 
     while True:
         big_menu.render()
-        #my_box.render()
         keypress = SHARED_VARS["STDSCR"].getch()
-        status_label.change_text(str(keypress))
+        status_label.change_text(f"//§bold§//boxes_tui's //§C:green§//{os.path.basename(__file__)}.   //§§//Last pressed key: //§C:blue,bold§//{str(keypress)}     ")
         big_menu.tick(keypress)
-        #my_box.tick(keypress)
 
 if __name__ == "__main__":
     wrapper(main)

@@ -1,8 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
+# #############
+# ### Looks ###
+# #############
 
-# In[ ]:
 
+# ### Imports ###
 
 import curses
 from enum import Enum
@@ -11,8 +12,7 @@ from boxes_tui.shared_vars import SHARED_VARS
 from boxes_tui.logger import LogLevel, log
 
 
-# In[ ]:
-
+# ### standard colour values ###
 
 class colour(Enum):
     default = -1
@@ -26,8 +26,7 @@ class colour(Enum):
     magenta = curses.COLOR_MAGENTA
 
 
-# In[ ]:
-
+# ### Colour scheme class ###
 
 class ColourScheme:
    """A simple class to hold a bunch of colour pairs to be used in `init_colours`
@@ -43,8 +42,7 @@ class ColourScheme:
       self.colour_pairs = colour_pairs
 
 
-# In[ ]:
-
+# ### Default colours ###
 
 DEFAULT_COLOURS = ColourScheme(
     (1,  colour.white,   colour.default,   "white"),
@@ -64,8 +62,7 @@ DEFAULT_COLOURS = ColourScheme(
 )
 
 
-# In[ ]:
-
+# ### Init functions ###
 
 def init_colours(colours: ColourScheme = DEFAULT_COLOURS) -> None: # TODO: make coustom colours (colours not curses.SOMETHING)
     """A short function to load a ColourScheme class into curses colour pairs"""
@@ -104,22 +101,13 @@ def init_colours(colours: ColourScheme = DEFAULT_COLOURS) -> None: # TODO: make 
             log(LogLevel.ERROR, f'Exception at: {pair_num}, {foreground} {background}: {e}' + '\n')
 
 
-# ### Using Colours
-# 
-# ---
-
-# In[ ]:
-
+# ### Using Colours ###
 
 class FormattedText:
     def __init__(self, text: str, colour_pair: int, additional_options: int) -> None:
         self.text = text
         self.colour_pair = colour_pair
         self.additional_options = additional_options
-
-
-# In[ ]:
-
 
 def process_arguments(arguments: list) -> tuple:
     """This Function takes a list of option [arguments](../../README.md) and outputs it as a bunt of or'd together options"""
@@ -161,10 +149,6 @@ def process_arguments(arguments: list) -> tuple:
                 log(LogLevel.ERROR, f'Not an int: {arg}' + '\n')
 
     return text_options, colour_pair
-
-
-# In[ ]:
-
 
 def format_text(unformatted_text: str, selected: bool = True) -> list:
 
@@ -213,4 +197,3 @@ def format_text(unformatted_text: str, selected: bool = True) -> list:
         result.append(FormattedText(text=text_piece, additional_options=text_options, colour_pair=colour_pair))
 
     return result
-

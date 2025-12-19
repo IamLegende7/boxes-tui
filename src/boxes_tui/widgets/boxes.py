@@ -108,7 +108,7 @@ class Box(Widget):
             tp_chr = '─'
 
         if self.window is None:
-            raise LibraryUsageError(f'({self.widget_type}: id: {self.widget_id}) self.window is not set; did you forget to pass in a window?')
+            raise BoxesTUI_LibraryUsageError(f'({self.widget_type}: id: {self.widget_id}) self.window is not set; did you forget to pass in a window?')
 
         ## Render Box ##
         if True: # TODO: implement old_render_options again

@@ -65,7 +65,7 @@
 # The main widget class:
 from boxes_tui.widgets.widget import Widget
 
-# Some pre-build widgets: (~~at least all that are done~~ (they aren't done yet))
+# Some pre-build widgets: (at least all that are done)
 from boxes_tui.widgets.basic import Label
 from boxes_tui.widgets.boxes import Box
 from boxes_tui.widgets.layouts import VerticalLayout

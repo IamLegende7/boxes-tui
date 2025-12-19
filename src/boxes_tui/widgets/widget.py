@@ -264,7 +264,7 @@ class Widget:
 
         # Error handeling
         if not self.can_tick:
-            #raise LibraryUsageError(f'{widget_type}: This Widget can not tick!')
+            #raise BoxesTUI_LibraryUsageError(f'{widget_type}: This Widget can not tick!')
             log(LogLevel.WARNING, f'{self.widget_type}: This Widget can not tick!')
             return results
 
@@ -302,12 +302,12 @@ class Widget:
     def render_self(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) No custom render_self function defined but called.')
         if self.window is None:
-            raise LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
+            raise BoxesTUI_LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
 
     def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) No custom render_components function defined but called.')
         if self.window is None:
-            raise LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
+            raise BoxesTUI_LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
 
     def render(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         """ This function bundles `render_self` and `render_components`. It should only be called by the global scope, not by a widget! """

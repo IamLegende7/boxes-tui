@@ -1,0 +1,25 @@
+- Fully migrate from .ipynb to normal .py files
+
+- Write better Documentation in-code
+- Write usage docs
+
+- Make logger have a Loglevel to only display logs with a Loglevel over that
+
+- Inputs using asyncio
+
+- Add scroll to VerticalLayout
+
+- Add pages widget
+
+- Add HorizontalLayout Widget
+
+- `Global` widget:
+    - a widget to automate some annoyning function calls
+    - completely optional to use
+    - Task:
+        - check for terminal resizeses using asyncio
+        - make inputs + ticking in one function (renderring maybe too?)
+
+- implement `old_renderring_options` -> not renderring if the renderring_options is the same as before -> no unneeded re-renderring
+
+- make the last widget with -1 fill out all space left, as 100 mod 3 = 1 -> 1 line unused

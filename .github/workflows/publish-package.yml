@@ -32,16 +32,8 @@ jobs:
         run: |
           VERSION=${RELEASE_TAG#v}
           echo "Setting project version to $VERSION"
-
-          python - <<PY
-import toml, sys
-p = toml.load("pyproject.toml")
-p.setdefault("project", {})
-p["project"]["version"] = "$VERSION"
-with open("pyproject.toml", "w") as f:
-  toml.dump(p, f)
-print("pyproject.toml updated")
-PY
+          python .scripts/set_version.py "$VERSION"
+          echo "pyproject.toml updated"
       
       - name: Set up Python
         uses: actions/setup-python@v5

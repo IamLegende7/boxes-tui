@@ -27,7 +27,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: python -m pip install --upgrade pip setuptools wheel toml
+        run: python -m pip install --upgrade pip setuptools wheel build toml
 
       - name: Set version from GitHub release tag
         env:

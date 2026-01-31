@@ -1,6 +1,9 @@
 import toml, sys
 
-p = toml.load("pyproject.toml")
+
+with open("pyproject.toml", 'r') as f:
+    p = toml.load(f)
+
 p.setdefault("project", {})
 p["project"]["version"] = sys.argv[1]
 

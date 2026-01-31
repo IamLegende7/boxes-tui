@@ -12,6 +12,7 @@
 
 import curses
 import asyncio
+from enum import IntEnum
 
 from boxes_tui.wrapper import quit_app
 
@@ -54,33 +55,32 @@ class KeybindList:
 
 # ### Keymap ###
 
-KEY = { # TODO: Expand this list futher
+class Key(IntEnum): # TODO: Expand this list futher
     ## Arrowkeys
-    "up":    curses.KEY_UP,
-    "down":  curses.KEY_DOWN,
-    "left":  curses.KEY_LEFT,
-    "right": curses.KEY_RIGHT,
+    up =        curses.KEY_UP
+    down =      curses.KEY_DOWN
+    left =      curses.KEY_LEFT
+    right =     curses.KEY_RIGHT
     ## Extra Keys
-    "back":  curses.KEY_BACKSPACE,
-    "enter": curses.KEY_ENTER,
-    "home":  curses.KEY_HOME,
-    "emd":   curses.KEY_END,
-    "Pup":   curses.KEY_PPAGE,
-    "Pdown": curses.KEY_NPAGE,
+    back =      curses.KEY_BACKSPACE
+    enter =     curses.KEY_ENTER
+    home =      curses.KEY_HOME
+    end =       curses.KEY_END
+    page_up =   curses.KEY_PPAGE
+    page_down = curses.KEY_NPAGE
     ## F1-12
-    "F1":    curses.KEY_F1,
-    "F2":    curses.KEY_F2,
-    "F3":    curses.KEY_F3,
-    "F4":    curses.KEY_F4,
-    "F5":    curses.KEY_F5,
-    "F6":    curses.KEY_F6,
-    "F7":    curses.KEY_F7,
-    "F8":    curses.KEY_F8,
-    "F9":    curses.KEY_F9,
-    "F10":   curses.KEY_F10,
-    "F11":   curses.KEY_F11,
-    "F12":   curses.KEY_F12
-}
+    F1 =        curses.KEY_F1
+    F2 =        curses.KEY_F2
+    F3 =        curses.KEY_F1
+    F4 =        curses.KEY_F4
+    F5 =        curses.KEY_F5
+    F6 =        curses.KEY_F6
+    F7 =        curses.KEY_F7
+    F8 =        curses.KEY_F8
+    F9 =        curses.KEY_F9
+    F10 =       curses.KEY_F10
+    F11 =       curses.KEY_F11
+    F12 =       curses.KEY_F12
 
 
 # ### Defaults
@@ -90,9 +90,9 @@ DEFAULT_KEYBINDS_GLOBAL = KeybindList(
 )
 
 DEFAULT_KEYBINDS_MENU = KeybindList( # TODO: Add descriptions
-    ((KEY["up"]),          "menu_function_up"),
-    ((KEY["down"]),        "menu_function_down"),
-    ((KEY["enter"], 10),   "menu_function_select"),
-    ((KEY["back"]),        "menu_function_back")
+    ((Key.up),          "menu_function_up"),
+    ((Key.down),        "menu_function_down"),
+    ((Key.enter, 10),   "menu_function_select"),
+    ((Key.back),        "menu_function_back")
 )
 

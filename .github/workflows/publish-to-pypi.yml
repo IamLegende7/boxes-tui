@@ -1,5 +1,5 @@
 name: Publish Python distribution to PyPI and TestPyPI
-# This was takne from this guide: https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+# This was taken from this guide: https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 # (and slightly edited)
 
 on: 

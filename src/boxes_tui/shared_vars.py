@@ -8,6 +8,7 @@
 SHARED_VARS = {
     "STDSCR": None,
     "COLOURS": {"white-black": 0},
-    "LOG_FILE": None
+    "LOG_FILE": None,
+    "LOG_LEVEL": 1 # the minimum Log_Level to log
 }
 

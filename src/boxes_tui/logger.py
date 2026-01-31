@@ -35,6 +35,8 @@ class LogLevel(Enum):
 def log(log_level: int, message: str) -> bool:
     if SHARED_VARS["LOG_FILE"] is None:
         return False
+    if SHARED_VARS["LOG_LEVEL"] > log_level.value:
+        return True
 
     log_level_prefix = ''
     if log_level == LogLevel.DEBUG:

@@ -3,7 +3,7 @@
 # ##############
 
 # This is the main class for the `Widget` type.  
-# It offers the following functions & variables to all future Widgets:
+# It offers the following functions, classes & variables to all future Widgets:
 
 #  - **TODO**: write list
 
@@ -11,6 +11,7 @@
 # ### Imports ###
 
 import curses
+from dataclasses import dataclass
 
 from boxes_tui.shared_vars import SHARED_VARS
 from boxes_tui.inputs import KeybindList
@@ -18,73 +19,53 @@ from boxes_tui.exceptions import *
 from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
 
-
 # ### Settings ###
 
+@dataclass
 class WidgetSetting:
-    def __init__(self,
-            has_components:bool=False,
-            has_multiple_components:bool=False,
-            can_scroll:bool=False,
-            has_optional_scroll:bool=False,
-            has_selected_components:bool=False,
+    has_components:bool = False,
+    has_multiple_components:bool = False,
+    can_scroll:bool = False,
+    has_optional_scroll:bool = False,
+    has_selected_components:bool = False,
 
-            default_wanted_width:int=-1,
-            default_wanted_height:int=-1,
+    default_wanted_width:int = -1,
+    default_wanted_height:int = -1,
 
-            can_tick:bool=False,
-            has_optional_ticking:bool=False,
-            has_keybinds:bool=False,
-            default_keybinds:KeybindList=KeybindList(),
+    can_tick:bool = False,                                # if this widget has components, that can tick, you usually don't want to set this to False, see vv
+    has_optional_ticking:bool = False,                    # You usually don't want this, as `can_tick = False` keeps components from ticking too; my_widget.tick() runs my_widget.component(s).tick()
+    has_keybinds:bool = False,                            # This will be set to True if the Widget has a `default_keybinds` attibute
+    default_keybinds:KeybindList = KeybindList(),         # This will be set to `default_keybinds` if the Widget has that as an attibute
 
-            has_optional_colour:bool=False,
-            has_text:bool=False,
-            has_formatting:bool=False
-        ):
-
-        self.has_components = has_components
-        self.has_multiple_components = has_multiple_components
-        self.can_scroll = can_scroll
-        self.has_optional_scroll = has_optional_scroll
-        self.has_selected_components = has_selected_components
-
-        self.default_wanted_width = default_wanted_width
-        self.default_wanted_height = default_wanted_height
-
-        self.can_tick = can_tick                         # if this widget has components, that can tick, you usually don't want to set this to False, see vv
-        self.has_optional_ticking = has_optional_ticking # You usually don't want this, as `can_tick = False` keeps components from ticking too; my_widget.tick() runs my_widget.component(s).tick()
-        self.has_keybinds = has_keybinds                 # This will be set to True if the Widget has a `default_keybinds` attibute
-        self.default_keybinds = default_keybinds         # This will be set to `default_keybinds` if the Widget has that as an attibute
-
-        #self.has_optional_colour = has_optional_colour
-        self.has_text = has_text
-        #self.has_formatting = has_formatting # FIXME: What is thie meant to do? Maybe if format_text should be called?
+    has_optional_colour:bool = False,
+    has_text:bool = False,
+    has_formatting:bool = False                           # FIXME: What is this meant to do? Maybe if format_text should be called?
 
 
 # ### Infos ###
 
+@dataclass
 class WidgetInformations:
-    def __init__(self):
-        self.has_components = False
-        self.has_multiple_components = False
-        self.can_scroll = False
-        self.has_selected_components = False
+    has_components = False
+    has_multiple_components = False
+    can_scroll = False
+    has_selected_components = False
 
-        self.has_keybinds = False
-        self.can_tick = False
+    has_keybinds = False
+    can_tick = False
 
 
 # ### Results ###
 
+@dataclass
 class WidgetTickResult:
-    def __init__(self, widget_id:str, keypress:int, selected_component:int=None) -> None:
-        self.widget_id = widget_id
-        self.keypress = keypress
-        self.selected_component = selected_component
+    widget_id:str
+    keypress:int
+    selected_component:int=None
 
+@dataclass
 class FunctionTickResult:
-    def __init__(self, return_value) -> None:
-        self.return_value = return_value
+    return_value=None
 
 
 # ### Main class ###
@@ -95,7 +76,7 @@ class Widget:
     #-#-#-# INIT #-#-#-#
     def __init__(
             self,
-            widget_id:str=f'[{widget_type}]',
+            widget_id:str=None,
             window=None,
             x_offset:int=0,
             y_offset:int=0,
@@ -106,7 +87,10 @@ class Widget:
 
         ## Misc ##
         self.is_selected = False
-        self.widget_id = widget_id
+        if widget_id is None:
+            self.widget_id = f'[{type(self).widget_type}]'
+        else:
+            self.widget_id = widget_id
         self.x_offset = x_offset
         self.y_offset = y_offset
 
@@ -127,7 +111,7 @@ class Widget:
             if self.settings.has_components:
 
                 self.infos.has_multiple_components = self.settings.has_multiple_components
-                if self.settings.has_multiple_components: components = more_args.get('components', None)   # Components = [(widget, function)]
+                if self.settings.has_multiple_components: components = more_args.get('components', [])   # Components = [(widget, function)]
                 else:                                     components = [more_args.get('component', None)]
 
                 self.components = []
@@ -190,7 +174,6 @@ class Widget:
         ## Window ##
         if not (window is None):
             self.set_window(window)
-            self.resize(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
         else:
             self.window = None
 
@@ -223,6 +206,8 @@ class Widget:
             else:
                 for component, function in self.components:
                     component.set_window(self.component_pad)
+        
+        self.resize(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
 
     def resize(self, new_width: int, new_height: int) -> None:
         # resize_self
@@ -259,8 +244,8 @@ class Widget:
 
         # Init Results
         results = []
-        if self.infos.has_multiple_components: results.append((WidgetTickResult(self.widget_id, keypress, self.selected), FunctionTickResult(None)))
-        else:                                  results.append((WidgetTickResult(self.widget_id, keypress),                FunctionTickResult(None)))
+        if self.infos.has_multiple_components: results.append((WidgetTickResult(self.widget_id, keypress, self.selected), FunctionTickResult()))
+        else:                                  results.append((WidgetTickResult(self.widget_id, keypress),                FunctionTickResult()))
 
         # Error handeling
         if not self.can_tick:
@@ -278,13 +263,25 @@ class Widget:
                         if (isinstance(x, int) and (keypress == x)) or (isinstance(x, tuple) and (keypress in x)):
 
                             if self.keybinds.keybinds[x][0] in self.keybind_translator.keys():
-                                results[-1] = (results[0], self.keybind_translator[self.keybinds.keybinds[x][0]]())
+
+                                if isinstance(self.keybind_translator[self.keybinds.keybinds[x][0]], tuple) and callable(self.keybind_translator[self.keybinds.keybinds[x][0]][0]):
+                                    result_function, *arguments = self.keybind_translator[self.keybinds.keybinds[x][0]]
+                                    results[-1] = (results[0], result_function(*arguments))
+                                else:
+                                    results[-1] = (results[0], self.keybind_translator[self.keybinds.keybinds[x][0]]())
 
                             elif callable(self.keybinds.keybinds[x][0]):
                                 try:
                                     results[-1] = (results[0], self.keybinds.keybinds[x][0]())
                                 except Exception as e:
                                     log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) Could not Call "{self.keybinds.keybinds[x][0]}": {e}')
+
+                            elif isinstance(self.keybinds.keybinds[x][0], tuple) and callable(self.keybinds.keybinds[x][0][0]):
+                                try:
+                                    result_function, *arguments = self.keybinds.keybinds[x][0]
+                                    results[-1] = (results[0], result_function(*arguments))
+                                except Exception as e:
+                                    log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) Could not Call "{self.keybinds.keybinds[x][0][0]}": {e}')
 
                             return results
                     except Exception as e:
@@ -316,12 +313,14 @@ class Widget:
 
         if self.window.is_wintouched():
             try:
-                self.window.refresh()
+                self.window.noutrefresh()
             except Exception as e:
                 log(LogLevel.ERROR, f'{self.widget_type}: ({self.widget_id}) Could not refresh the window (was maybe the `render` function called without giving the widget `STDSCR`?): {e}.')
 
         if self.infos.has_components:
             self.render_components(x=x, y=y, is_selected=is_selected)
+
+        curses.doupdate()
 
     def change_text(self, new_text:str) -> None:
         self.text = new_text

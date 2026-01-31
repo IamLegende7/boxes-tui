@@ -7,6 +7,7 @@
 
 import curses
 from enum import Enum
+from dataclasses import dataclass
 
 from boxes_tui.shared_vars import SHARED_VARS
 from boxes_tui.logger import LogLevel, log
@@ -103,11 +104,11 @@ def init_colours(colours: ColourScheme = DEFAULT_COLOURS) -> None: # TODO: make 
 
 # ### Using Colours ###
 
+@dataclass
 class FormattedText:
-    def __init__(self, text: str, colour_pair: int, additional_options: int) -> None:
-        self.text = text
-        self.colour_pair = colour_pair
-        self.additional_options = additional_options
+    text:str
+    colour_pair:int
+    additional_options:int
 
 def process_arguments(arguments: list) -> tuple:
     """This Function takes a list of option [arguments](../../README.md) and outputs it as a bunt of or'd together options"""

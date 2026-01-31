@@ -1,6 +1,6 @@
-# ######################
-# ### VerticalLayout ###
-# ######################
+# #############
+# ### Boxes ###
+# #############
 
 
 # ### IMPORTS ###
@@ -61,28 +61,17 @@ class Box(Widget):
             self.component_pad.resize(self.height, self.component_pad.getmaxyx()[1])
 
     def resize_components(self, new_width:int, new_height:int) -> None: # TODO: implement scroll
-        # Precounting
-        variable_height_components = 1
-        if (self.components[0][0].wanted_height is None) or (self.components[0][0].wanted_height < 0):
-            variable_height_components += 1
-            needed_height = 2
-        else:
-            needed_height = self.components[0][0].wanted_height
-
-        if needed_height + (variable_height_components * 2) > self.component_pad.getmaxyx()[0]:
-            log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) Not enough terminal height for loading all components & I forgot to implement scroll')
-            return
-
         # Width
         if (self.components[0][0].wanted_width is None) or (self.components[0][0].wanted_width < 0):
-            component_width = floor(self.width-1 / (-self.components[0][0].wanted_width))
+            component_width = floor(self.width-2 / (-self.components[0][0].wanted_width))
         else:
             component_width = self.components[0][0].wanted_width
         # Height
         if (self.components[0][0].wanted_height is None) or (self.components[0][0].wanted_height < 0):
-            component_height = floor(self.height-1 / (-self.components[0][0].wanted_height))
+            component_height = floor(self.height-2 / (-self.components[0][0].wanted_height))
         else:
             component_height = self.components[0][0].wanted_height
+
         # Pass on
         #log(LogLevel.DEBUG, f'{self.widget_type}: Resizing component: {component_height} {component_width}')
         self.components[0][0].resize(new_width=component_width, new_height=component_height)
@@ -137,7 +126,9 @@ class Box(Widget):
         self.components[0][0].render_self(x=0, y=0)
 
         if self.component_pad.is_wintouched():
-            #log(LogLevel.DEBUG, f'{self.widget_type}: Refreshing Componentpad: 0,0,  {y},{x},  {self.height-2+y},{self.width-2+y}')
-            self.component_pad.refresh(0,0,  y+1,x+1, self.height-2+y,self.width-2+x)
+            try:
+                self.component_pad.noutrefresh(0,0,  y+1,x+1, self.height-2+y,self.width-2+x)
+            except curses.error as e:
+                log(LogLevel.ERROR, f'{self.widget_id}: Refreshing Componentpad Failed: 0,0,  {y+1},{x+1},  {self.height-2+y},{self.width-2+y}: {e}')
         
         self.components[0][0].render_components(x=x+1, y=y+1)

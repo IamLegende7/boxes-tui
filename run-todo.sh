@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(dirname "$0")/../"
+cd "$(dirname "$0")"
 
-.venv/bin/python src/example.py
+.venv/bin/python src/todo.py
 
 rm -rf src/boxes_tui/__pycache__
 rm -rf src/boxes_tui/widgets/__pycache__

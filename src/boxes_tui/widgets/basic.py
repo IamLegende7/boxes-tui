@@ -44,7 +44,7 @@ class Label(Widget):
 
     def tick(self, keypress:int, pass_tick_on:bool=True):
         # define `ticks` to prevent a warning message from being logged
-        return (WidgetTickResult(self.widget_id, keypress), FunctionTickResult(None))
+        return (WidgetTickResult(self.widget_id, keypress), FunctionTickResult())
 
     def render_self(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         formatted_text = format_text(self.text, selected=is_selected)

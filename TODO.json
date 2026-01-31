@@ -1,0 +1,93 @@
+[
+    {
+        "name": "More error handling and logging",
+        "importance": 0,
+        "description": "More error handling and logging is required. The current state is a disaster...",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Write better Documentation in-code",
+        "importance": 0,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Write usage docs",
+        "importance": 0,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Textbox Widget",
+        "importance": 2,
+        "description": "A Widget similar to the label, but with multiline support; optional markdown formatting",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Inputs using Asyncio",
+        "importance": 1,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Single Keybind class instead of a ton of tuples",
+        "importance": 1,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add scroll to VerticalLayout",
+        "importance": 3,
+        "date": "30 Jan 2026"
+    }, 
+    {
+        "name": "Add \"searching\" of components using their id instead of their index",
+        "importance": 4,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add HorizontalLayout",
+        "importance": 3,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add Global widget",
+        "importance": 2,
+        "description": "A widget to automate some annoyning function calls; completelyy optional to use; Tasks: check for termresizes using asyncio & make inputs + ticking in one function (renderring maybe too?)",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add terminal resize checks (& resize everything accordingly)",
+        "importance": 0,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Implement re-render checks",
+        "importance": 0,
+        "description": "not renderring if the renderring_options is the same as before -> no unneeded re-renderring",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "TODO.py fixes",
+        "importance": 0,
+        "description": "use textbox for description",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add option to not display selection on selected components.",
+        "importance": 4,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add diffrent border styles for the Box widget",
+        "importance": 0,
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "Add label orientation",
+        "importance": 3,
+        "description": "Stuff like left, middle, right text orientation, etc.",
+        "date": "30 Jan 2026"
+    },
+    {
+        "name": "change_text() has to call a resize to the new length",
+        "importance": 3,
+        "date": "31 Jan 2026"
+    }
+]

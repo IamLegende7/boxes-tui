@@ -43,7 +43,7 @@ I am sure I can make something useful this time!
 | :------------------------ | :------------- |
 | Variables, functions, etc | snake_case     |
 | Global variables          | SCREAMING_CASE |
-| Classes                   | CamelCase      |
+| Classes                   | PascalCase     |
 
 ### AI
 

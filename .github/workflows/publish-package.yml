@@ -33,7 +33,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          VERSION=${RELEASE_TAG#v}
+          VERSION=${RELEASE_TAG#[vt]}
           echo "Setting project version to $VERSION"
           python .scripts/set_version.py "$VERSION"
           echo "pyproject.toml updated"

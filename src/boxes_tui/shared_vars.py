@@ -9,6 +9,15 @@ SHARED_VARS = {
     "STDSCR": None,
     "COLOURS": {"white-black": 0},
     "LOG_FILE": None,
-    "LOG_LEVEL": 1 # the minimum Log_Level to log
+    "LOG_LEVEL": 1, # the minimum Log_Level to log
+    "WIDGETS": {}
 }
+
+def find_widget(widget_id:str):
+    """Finds a Widget by it's ID"""
+
+    if widget_id == "STDSCR":
+        return SHARED_VARS["STDSCR"]
+    else:
+        return SHARED_VARS["WIDGETS"][widget_id]
 

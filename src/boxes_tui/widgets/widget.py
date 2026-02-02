@@ -39,13 +39,14 @@ class WidgetSetting:
 
     has_optional_colour:bool = False,
     has_text:bool = False,
+    default_show_selected:bool = False,
     has_formatting:bool = False                           # FIXME: What is this meant to do? Maybe if format_text should be called?
 
 
 # ### Infos ###
 
 @dataclass
-class WidgetInformations:
+class WidgetInformation:
     has_components = False
     has_multiple_components = False
     can_scroll = False
@@ -83,7 +84,7 @@ class Widget:
             **more_args
         ) -> None:
 
-        self.infos = WidgetInformations()
+        self.infos = WidgetInformation()
 
         ## Misc ##
         self.is_selected = False
@@ -91,6 +92,10 @@ class Widget:
             self.widget_id = f'[{type(self).widget_type}]'
         else:
             self.widget_id = widget_id
+        if self.widget_id != f'[{type(self).widget_type}]':
+            if self.widget_id in SHARED_VARS["WIDGETS"].keys():
+                raise BoxesTUI_LibraryUsageError(f'[{self.widget_type}]: ID "{self.widget_id}" defined twice!')
+            SHARED_VARS["WIDGETS"][self.widget_id] = self
         self.x_offset = x_offset
         self.y_offset = y_offset
 
@@ -129,8 +134,12 @@ class Widget:
                 self.infos.can_scroll = self.can_scroll
 
                 self.infos.has_selected_components = self.settings.has_selected_components
-                if self.settings.has_selected_components: self.selected = more_args.get('selected', 0)
-                else:                                     self.selected = 0
+                if self.settings.has_selected_components:
+                    self.selected = more_args.get('selected', 0)
+                    self.show_selected = more_args.get('show_selected', self.settings.default_show_selected)
+                else:
+                    self.selected = 0
+                    self.show_selected = False
 
             # Size
             if not (self.settings.default_wanted_width is None): self.wanted_width = more_args.get('wanted_width', self.settings.default_wanted_width)
@@ -163,6 +172,7 @@ class Widget:
             self.infos.can_scroll = self.can_scroll
 
             self.infos.has_selected_components = False
+            self.show_selected = False
             self.selected = 0
 
             self.wanted_width = 1
@@ -231,7 +241,7 @@ class Widget:
                 for component, function in self.components:
                     component.resize(new_width, new_height)
 
-    def tick(self, keypress:int, pass_tick_on:bool=True) -> WidgetTickResult:
+    def tick(self, keypress:int, pass_tick_on:bool=True) -> List[Tuple[WidgetTickResult, FunctionTickResult]]:
         """ Return values:
                 List(
                     Tuple(
@@ -251,6 +261,9 @@ class Widget:
         if not self.can_tick:
             #raise BoxesTUI_LibraryUsageError(f'{widget_type}: This Widget can not tick!')
             log(LogLevel.WARNING, f'{self.widget_type}: This Widget can not tick!')
+            return results
+        
+        if keypress is None:
             return results
 
         # tick_self
@@ -301,7 +314,7 @@ class Widget:
         if self.window is None:
             raise BoxesTUI_LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
 
-    def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
+    def render_components(self, x:int=0, y:int=0) -> None:
         log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) No custom render_components function defined but called.')
         if self.window is None:
             raise BoxesTUI_LibraryUsageError(f'({widget_type}: id: {self.id}) self.window is not set; did you forget to pass in a window?')
@@ -318,7 +331,7 @@ class Widget:
                 log(LogLevel.ERROR, f'{self.widget_type}: ({self.widget_id}) Could not refresh the window (was maybe the `render` function called without giving the widget `STDSCR`?): {e}.')
 
         if self.infos.has_components:
-            self.render_components(x=x, y=y, is_selected=is_selected)
+            self.render_components(x=x, y=y)
 
         curses.doupdate()
 

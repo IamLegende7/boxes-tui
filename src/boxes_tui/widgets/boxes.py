@@ -10,7 +10,7 @@ from math import floor
 
 from boxes_tui.widgets.widget import WidgetSetting, Widget
 
-from boxes_tui.inputs import KeybindList, DEFAULT_KEYBINDS_MENU
+from boxes_tui.inputs import KeybindList
 from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
 
@@ -48,6 +48,7 @@ class Box(Widget):
 
         has_optional_colour=True,
         has_text=True,
+        default_show_selected=False,
         has_formatting=True
     )
 
@@ -120,10 +121,10 @@ class Box(Widget):
             try: self.window.addstr(y+self.height-1, x, bl_chr + tp_chr * (self.width-2) + br_chr, self.colour)
             except: pass
 
-    def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
+    def render_components(self, x:int=0, y:int=0) -> None:
         """Renders the Components of the `Box` Widget"""
 
-        self.components[0][0].render_self(x=0, y=0)
+        self.components[0][0].render_self(x=0, y=0, is_selected=self.show_selected)
 
         if self.component_pad.is_wintouched():
             try:

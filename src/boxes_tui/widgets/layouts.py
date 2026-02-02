@@ -14,8 +14,6 @@ from boxes_tui.inputs import KeybindList, DEFAULT_KEYBINDS_MENU
 from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
 
-from boxes_tui.shared_vars import SHARED_VARS
-
 # ### MAIN CLASS ###
 
 class VerticalLayout(Widget):
@@ -51,6 +49,7 @@ class VerticalLayout(Widget):
 
         has_optional_colour=False,
         has_text=False,
+        default_show_selected=True,
         has_formatting=False
     )
 
@@ -116,13 +115,13 @@ class VerticalLayout(Widget):
         # define `render_self` to prevent a warning message from being logged
         pass
 
-    def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
+    def render_components(self, x:int=0, y:int=0) -> None:
         """Renders the Components of the `VerticalLayout` Widget"""
 
         full_y = 0
         i = 0
         for component, function in self.components:
-            component.render_self(x=0, y=full_y, is_selected=(i == self.selected))
+            component.render_self(x=0, y=full_y, is_selected=((i == self.selected) and self.show_selected))
             full_y += component.height
             i += 1
 
@@ -137,7 +136,7 @@ class VerticalLayout(Widget):
         i = 0
         for component, function in self.components:
             if component.infos.has_components:
-                component.render_components(x=x, y=full_y, is_selected=(i == self.selected))
+                component.render_components(x=x, y=full_y)
             full_y += component.height
             i += 1
 
@@ -213,6 +212,7 @@ class Pages(Widget):
 
         has_optional_colour=False,
         has_text=False,
+        default_show_selected=False,
         has_formatting=False
     )
 
@@ -264,10 +264,10 @@ class Pages(Widget):
         # TODO: make an optional tab display (like in a browser)
         pass
 
-    def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
-        """Renders the Components of the `Box` Widget"""
+    def render_components(self, x:int=0, y:int=0) -> None:
+        """Renders the Components of the `Pages` Widget"""
 
-        self.components[self.selected][0].render_self(x=0, y=0)
+        self.components[self.selected][0].render_self(x=0, y=0, is_selected=self.show_selected)
 
         if self.component_pad.is_wintouched():
             try:

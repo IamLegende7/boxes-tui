@@ -69,4 +69,4 @@ from boxes_tui.widgets.widget import Widget
 from boxes_tui.widgets.basic import Label
 from boxes_tui.widgets.boxes import Box
 from boxes_tui.widgets.layouts import VerticalLayout, Pages
-
+from boxes_tui.widgets.global_widget import Global

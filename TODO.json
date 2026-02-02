@@ -22,11 +22,6 @@
         "date": "30 Jan 2026"
     },
     {
-        "name": "Inputs using Asyncio",
-        "importance": 1,
-        "date": "30 Jan 2026"
-    },
-    {
         "name": "Single Keybind class instead of a ton of tuples",
         "importance": 1,
         "date": "30 Jan 2026"
@@ -37,24 +32,8 @@
         "date": "30 Jan 2026"
     }, 
     {
-        "name": "Add \"searching\" of components using their id instead of their index",
-        "importance": 4,
-        "date": "30 Jan 2026"
-    },
-    {
         "name": "Add HorizontalLayout",
         "importance": 3,
-        "date": "30 Jan 2026"
-    },
-    {
-        "name": "Add Global widget",
-        "importance": 2,
-        "description": "A widget to automate some annoyning function calls; completelyy optional to use; Tasks: check for termresizes using asyncio & make inputs + ticking in one function (renderring maybe too?)",
-        "date": "30 Jan 2026"
-    },
-    {
-        "name": "Add terminal resize checks (& resize everything accordingly)",
-        "importance": 0,
         "date": "30 Jan 2026"
     },
     {
@@ -67,11 +46,6 @@
         "name": "TODO.py fixes",
         "importance": 0,
         "description": "use textbox for description",
-        "date": "30 Jan 2026"
-    },
-    {
-        "name": "Add option to not display selection on selected components.",
-        "importance": 4,
         "date": "30 Jan 2026"
     },
     {
@@ -89,5 +63,15 @@
         "name": "change_text() has to call a resize to the new length",
         "importance": 3,
         "date": "31 Jan 2026"
+    },
+    {
+        "name": "Add Button widget",
+        "importance": 0,
+        "date": "01 Feb 2026"
+    },
+    {
+        "name": "Add optional index wrapping to VeticalLayout",
+        "importance": 2,
+        "date": "01 Feb 2026"
     }
 ]

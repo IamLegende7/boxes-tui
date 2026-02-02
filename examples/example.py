@@ -1,6 +1,6 @@
 from boxes_tui import wrapper, quit_app
 from boxes_tui.shared_vars import SHARED_VARS
-from boxes_tui.widgets import Label, VerticalLayout, Box
+from boxes_tui.widgets import Global, Label, VerticalLayout, Box
 from boxes_tui.logger import LogLevel, log
 from boxes_tui.inputs import KeybindList
 
@@ -53,11 +53,18 @@ def main():
         selected=1
     )
 
+    my_tui = Global(
+        component = big_menu,
+        widget_id="my_tui"
+    )
+
     while True:
-        big_menu.render()
-        keypress = SHARED_VARS["STDSCR"].getch()
-        status_label.change_text(f"//§bold§//boxes_tui's //§C:green§//{os.path.basename(__file__)}.   //§§//Last pressed key: //§C:blue,bold§//{str(keypress)}     ")
-        big_menu.tick(keypress)
+        #big_menu.render()
+        #keypress = SHARED_VARS["STDSCR"].getch()
+        #big_menu.tick(keypress)
+        tick_result = my_tui.run()
+        if tick_result[0][0].keypress != -1:
+            status_label.change_text(f"//§bold§//boxes_tui's //§C:green§//{os.path.basename(__file__)}.   //§§//Last pressed key: //§C:blue,bold§//{str(tick_result[0][0].keypress)}     ")
 
 if __name__ == "__main__":
     wrapper(main)

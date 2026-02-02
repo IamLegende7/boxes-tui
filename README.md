@@ -44,13 +44,3 @@ I am sure I can make something useful this time!
 | Variables, functions, etc | snake_case     |
 | Global variables          | SCREAMING_CASE |
 | Classes                   | PascalCase     |
-
-### AI
-
----
-
-> [!Note]  
-> I am not a fan of so called "vibe-coding".  
-> All code in this repo was 100% written by a human (me).  
-> AI WAS USED, but only to ask about best-practices or the like; **No code of AI was ever implemented** (or even generated on purpose)  
-> (This may not remain accurate if other people commit, I can not check for AI code in pull request with absolute certainty, so I won't even try)  

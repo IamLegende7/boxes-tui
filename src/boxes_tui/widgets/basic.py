@@ -32,6 +32,7 @@ class Label(Widget):
 
         has_optional_colour=True,
         has_text=True,
+        default_show_selected=False,
         has_formatting=True
     )
 

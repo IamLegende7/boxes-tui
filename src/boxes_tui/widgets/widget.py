@@ -103,6 +103,7 @@ class Widget:
         self.height = 1
 
         self.selected = 0
+        self.scroll = 0
 
 
         ## Load values ##
@@ -219,7 +220,10 @@ class Widget:
         
         self.resize(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
 
-    def resize(self, new_width: int, new_height: int) -> None:
+    def resize(self, new_width: int=None, new_height: int=None) -> None:
+        if new_width is None: new_width = self.window.getmaxyx()[1]
+        if new_height is None: new_height = self.window.getmaxyx()[0]
+
         # resize_self
         if hasattr(self, 'resize_self'):
             self.resize_self(new_width, new_height)
@@ -335,5 +339,13 @@ class Widget:
 
         curses.doupdate()
 
+
+    #-#-#-# MISC #-#-#-#
+
     def change_text(self, new_text:str) -> None:
         self.text = new_text
+
+    def root(self) -> None:
+        if "root" in SHARED_VARS["WIDGETS"].keys():
+            raise BoxesTUI_LibraryUsageError(f'[{self.widget_type}]: ID "root" defined twice!')
+        SHARED_VARS["WIDGETS"]["root"] = self

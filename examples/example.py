@@ -5,6 +5,7 @@ from boxes_tui.logger import LogLevel, log
 from boxes_tui.inputs import KeybindList
 
 import os
+import time
 
 def my_function():
     """ Use this to get the named colours currently initialised """
@@ -58,6 +59,7 @@ def main():
         widget_id="my_tui"
     )
 
+    #big_menu.root() # Set big_menu as our root Widget (the widget our program interacts with) (THIS IS VERY IMPORTANT; DON'T SKIP THIS STEP (Global does this for you))
     while True:
         #big_menu.render()
         #keypress = SHARED_VARS["STDSCR"].getch()
@@ -65,6 +67,7 @@ def main():
         tick_result = my_tui.run()
         if tick_result[0][0].keypress != -1:
             status_label.change_text(f"//§bold§//boxes_tui's //§C:green§//{os.path.basename(__file__)}.   //§§//Last pressed key: //§C:blue,bold§//{str(tick_result[0][0].keypress)}     ")
+        time.sleep(0.02)
 
 if __name__ == "__main__":
     wrapper(main)

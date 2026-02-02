@@ -27,11 +27,6 @@
         "date": "30 Jan 2026"
     },
     {
-        "name": "Add scroll to VerticalLayout",
-        "importance": 3,
-        "date": "30 Jan 2026"
-    }, 
-    {
         "name": "Add HorizontalLayout",
         "importance": 3,
         "date": "30 Jan 2026"
@@ -60,11 +55,6 @@
         "date": "30 Jan 2026"
     },
     {
-        "name": "change_text() has to call a resize to the new length",
-        "importance": 3,
-        "date": "31 Jan 2026"
-    },
-    {
         "name": "Add Button widget",
         "importance": 0,
         "date": "01 Feb 2026"
@@ -73,5 +63,21 @@
         "name": "Add optional index wrapping to VeticalLayout",
         "importance": 2,
         "date": "01 Feb 2026"
+    },
+    {
+        "name": "Tons of resizes in todo.py (see log) -> what causes that? is that nessesary?",
+        "importance": 4,
+        "date": "02 Feb 2026"
+    },
+    {
+        "name": "Drawing Widget",
+        "importance": 3,
+        "description": "A widget that allows to use of normal curses functions and stuff inside it (it acts like a window to curses and like a widget to boxes)",
+        "date": "02 Feb 2026"
+    },
+    {
+        "name": "Optionaly display the scroll of VericalLayout using a scroll bar",
+        "importance": 3,
+        "date": "02 Feb 2026"
     }
 ]

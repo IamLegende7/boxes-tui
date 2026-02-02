@@ -10,6 +10,8 @@ from boxes_tui.widgets.widget import WidgetSetting, Widget, WidgetTickResult, Fu
 from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
 
+from boxes_tui.shared_vars import SHARED_VARS, find_widget
+
 
 # ### MAIN CLASS ###
 
@@ -44,7 +46,7 @@ class Label(Widget):
         self.wanted_width = len(actual_text)
 
     def tick(self, keypress:int, pass_tick_on:bool=True):
-        # define `ticks` to prevent a warning message from being logged
+        # define `tick` to prevent a warning message from being logged
         return (WidgetTickResult(self.widget_id, keypress), FunctionTickResult())
 
     def render_self(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
@@ -61,3 +63,13 @@ class Label(Widget):
     def render_components(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         # define `render_components` to prevent a warning message from being logged
         pass
+
+    def change_text(self, new_text:str) -> None:
+        super().change_text(new_text)
+        actual_text = ""
+        for text_piece in format_text(self.text):
+            actual_text += text_piece.text
+        self.wanted_width = len(actual_text)
+
+        find_widget("root").resize()
+

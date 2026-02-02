@@ -48,8 +48,9 @@ class Global(Widget):
     )
 
     def extra_init(self):
+        self.root()
         self.set_window(SHARED_VARS["STDSCR"])
-        self.window.nodelay(True)
+        self.window.nodelay(SHARED_VARS["NON_BLOCKING_GETCH"])
 
     def resize_self(self, new_width:int, new_height:int) -> None:
         self.width = new_width

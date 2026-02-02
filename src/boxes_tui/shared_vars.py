@@ -9,8 +9,9 @@ SHARED_VARS = {
     "STDSCR": None,
     "COLOURS": {"white-black": 0},
     "LOG_FILE": None,
-    "LOG_LEVEL": 1, # the minimum Log_Level to log
-    "WIDGETS": {}
+    "LOG_LEVEL": 2, # the minimum Log_Level to log
+    "WIDGETS": {},
+    "NON_BLOCKING_GETCH": True  # if Global widget's .getch() should be blocking or not: blocking -> less resources take up, waits for user input ; non-blocking -> checks for term resizes, program can do something while no inputs
 }
 
 def find_widget(widget_id:str):

@@ -22,15 +22,16 @@ from boxes_tui.logger import *
 # ### Wrapper ###
 # ###############
 
-def tui_wrapper(function, colour_scheme: ColourScheme = DEFAULT_COLOURS) -> None:
+def tui_wrapper(function, colour_scheme: ColourScheme = DEFAULT_COLOURS, non_blocking_getch: bool = True) -> None:
     """This function calls the given function using the curses wrapper and sets some global variables"""
 
     def runner(stdscr) -> None:
         """This function gets called using the curses wrapper and sets some variables before calling the given function"""
 
-        ## Export stdscr
+        ## SHARED_VARS
         SHARED_VARS["STDSCR"] = stdscr
         set_log_file("boxes_tui.log")
+        SHARED_VARS["NON_BLOCKING_GETCH"] = non_blocking_getch
 
         ## Curses settings
         curses.noecho()

@@ -6,6 +6,7 @@ from boxes_tui.shared_vars import SHARED_VARS
 
 from dataclasses import dataclass
 import json
+import time
 
 
 @dataclass
@@ -42,13 +43,16 @@ def main():
             components = [
                 Box(
                     widget_id="header_box",
-                    component=Label(text=str("//§C:green,bold§//boxes-tui//§bold§//  --  //§C:blue,bold§//TODO" + " " * (SHARED_VARS["STDSCR"].getmaxyx()[1]-2 - len("boxes_tui  --  TODO") - len(TODOS[0].date) -1) + TODOS[0].date), widget_id="header_label"),
+                    component=Label(text=str("//§C:green,bold§//boxes-tui//§bold§//  --  //§C:blue,bold§//TODO"), widget_id="header_label"),
                     wanted_height=3
                 ),
                 Box(
                     widget_id="main_box",
                     component=Pages(
-                        components = [VerticalLayout(widget_id="select_menu")],
+                        components = [VerticalLayout(
+                            widget_id="select_menu",
+                            can_scroll=True
+                        )],
                         widget_id="pages"
                     )
                 )
@@ -57,6 +61,7 @@ def main():
                 ((Key.back), (find_widget("pages").page_switch, 0))
             ),
             selected = 1,
+            show_selected=False,
             window = "default",
             widget_id="main_layout"
         )
@@ -97,6 +102,7 @@ def main():
     while True:
         find_widget("header_label").change_text(str("//§C:green,bold§//boxes-tui//§bold§//  --  //§C:blue,bold§//TODO" + " " * (todo_tui.window.getmaxyx()[1]-2 - len("boxes_tui  --  TODO") - len(TODOS[find_widget("select_menu").selected].date) -1) + TODOS[find_widget("select_menu").selected].date))
         todo_tui.run()
+        time.sleep(0.02)
 
 if __name__ == "__main__":
     wrapper(main)

@@ -69,6 +69,7 @@ class VerticalLayout(Widget):
         for x in new_components: self.add_component(x)
 
     def resize_components(self, new_width:int, new_height:int) -> None: # TODO: implement scroll # TODO: implement diffrent parts of the given space (like -2 = 1/2 of the avalible space) and mixing multiple diffrent ratios
+        # TODO: error handling: terminal space might not be enough to display everything
         # get infos
         wanted_heights = []
         variable_heights_count = 0
@@ -109,6 +110,8 @@ class VerticalLayout(Widget):
             log(LogLevel.DEBUG, f'Resizing {self.components[height_index][0].widget_id} to {component_new_width} x {component_new_height}')
             self.components[height_index][0].resize(new_width=component_new_width, new_height=component_new_height)
 
+        self.update_scroll()
+
     # Ticking is done using the default functions of the Widget Class!
 
     def render_self(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
@@ -128,9 +131,9 @@ class VerticalLayout(Widget):
         if self.component_pad.is_wintouched():
             #log(LogLevel.DEBUG, f'{self.widget_type}: Refreshing Componentpad: 0,0,  {y},{x},  {self.height-y},{self.width-x}')
             try:
-                self.component_pad.noutrefresh(0,0,  y,x, self.height-1+y,self.width-1+x)
+                self.component_pad.noutrefresh(self.scroll,0,  y,x, self.height-1+y,self.width-1+x)
             except curses.error as e:
-                log(LogLevel.ERROR, f'{self.widget_id}: Refreshing Componentpad Failed: 0,0,  {y},{x},  {self.height-1+y},{self.width-1+y}: {e}')
+                log(LogLevel.ERROR, f'{self.widget_id}: Refreshing Componentpad Failed: {self.scroll},0,  {y},{x},  {self.height-1+y},{self.width-1+y}: {e}')
 
         full_y = y
         i = 0
@@ -155,15 +158,27 @@ class VerticalLayout(Widget):
         if not (self.window is None):
             self.resize_components(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
 
+    def update_scroll(self):
+        if self.can_scroll and self.count_components > 0:
+            prev_y = -self.scroll
+            for component, function in self.components[:self.selected]: prev_y += component.height
+
+            if   prev_y+self.components[self.selected][0].height <= 0:
+                self.scroll -= self.components[self.selected][0].height
+            elif prev_y+self.components[self.selected][0].height > self.height:
+                self.scroll += prev_y+self.components[self.selected][0].height - self.height
+
 
     ### Keybind Functions ###
     def menu_up(self) -> None:
         if self.selected > 0:
             self.selected -= 1
+            self.update_scroll()
 
     def menu_down(self) -> None:
         if self.selected < self.count_components - 1:
             self.selected += 1
+            self.update_scroll()
 
     def menu_select(self):
         if (not (self.components[self.selected][1] is None)) and callable(self.components[self.selected][1]):

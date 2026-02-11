@@ -267,11 +267,12 @@ class Widget:
             log(LogLevel.WARNING, f'{self.widget_type}: This Widget can not tick!')
             return results
         
-        if keypress is None:
+        if (keypress is None) or (keypress == -1):
             return results
 
         # tick_self
         if self.infos.has_keybinds:
+            log(LogLevel.DEBUG, f"{self.widget_id}: Ticking self; keypress: {keypress}")
             if hasattr(self, 'tick_self'):
                 results[-1][1] = self.tick_self(keypress)
             else:
@@ -309,6 +310,7 @@ class Widget:
             if hasattr(self, 'tick_components'):
                 results += self.tick_components(keypress)
             else:
+                log(LogLevel.DEBUG, f"{self.widget_id}: Ticking {self.components[self.selected][0].widget_id}")
                 results += self.components[self.selected][0].tick(keypress)
 
         return results

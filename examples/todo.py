@@ -1,6 +1,6 @@
 from boxes_tui import wrapper, quit_app, find_widget
-from boxes_tui.widgets import Global, VerticalLayout, Pages, Label, Box
-from boxes_tui.logger import LogLevel, log
+from boxes_tui.widgets import Global, VerticalLayout, Pages, Label, Textbox, Box
+from boxes_tui.logger import *
 from boxes_tui.inputs import KeybindList, Key
 from boxes_tui.shared_vars import SHARED_VARS
 
@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import json
 import time
 
+set_log_level(LogLevel.INFO)
 
 @dataclass
 class Todo():
@@ -51,15 +52,19 @@ def main():
                     component=Pages(
                         components = [VerticalLayout(
                             widget_id="select_menu",
+                            keybinds=KeybindList(
+                                ((Key.up),          "menu_function_up"),
+                                ((Key.down),        "menu_function_down"),
+                                ((Key.enter, 10),   "menu_function_select"),
+                                ((ord("q"), ord("Q")),        quit_app)
+                            ),
                             can_scroll=True
                         )],
                         widget_id="pages"
                     )
                 )
             ],
-            keybinds=KeybindList(
-                ((Key.back), (find_widget("pages").page_switch, 0))
-            ),
+            keybinds=KeybindList(),
             selected = 1,
             show_selected=False,
             window = "default",
@@ -81,14 +86,16 @@ def main():
         find_widget("pages").add_component(
             VerticalLayout(
                 widget_id=f'VerticalLayout-{todo.todo_id}',
-                keybinds=KeybindList(),
+                keybinds=KeybindList(
+                    ((Key.back), (find_widget("pages").page_switch, 0))
+                ),
                 show_selected=False,
                 components = [
                     Label(
                         widget_id=f"todo_name_label-{todo.todo_id}",
                         text=f"//§C:green,bold§//{todo.name}"
                     ),
-                    Label( # TODO: this should be a textbox
+                    Textbox( # TODO: this should be a textbox
                         widget_id=f"todo_description-{todo.todo_id}",
                         text=f"{todo.description}"
                     )

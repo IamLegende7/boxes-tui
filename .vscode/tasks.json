@@ -1,0 +1,13 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Copy to .venv",
+            "type": "shell",
+            "command": "rm -rfv .venv/lib/python3.14/site-packages/boxes_tui && cp -rv src/boxes_tui .venv/lib/python3.14/site-packages/boxes_tui",
+            "problemMatcher": []
+        }
+    ]
+}

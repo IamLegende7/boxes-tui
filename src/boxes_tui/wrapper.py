@@ -55,4 +55,7 @@ def tui_wrapper(function, colour_scheme: ColourScheme = DEFAULT_COLOURS, non_blo
 # ############
 
 def quit_app() -> None:
+    curses.nocbreak()
+    SHARED_VARS["STDSCR"].keypad(False)
+    curses.echo()
     quit()

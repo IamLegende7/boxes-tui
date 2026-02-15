@@ -47,7 +47,7 @@ class Global(Widget):
         has_formatting=False
     )
 
-    def extra_init(self):
+    def extra_init(self, more_args):
         self.root()
         self.set_window(SHARED_VARS["STDSCR"])
         self.window.nodelay(SHARED_VARS["NON_BLOCKING_GETCH"])

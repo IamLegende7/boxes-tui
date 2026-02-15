@@ -28,6 +28,7 @@ class VerticalLayout(Widget):
             [selected]:int = 0: The component that is initially selected
             [x,y]:int = 0: The offset of the top-left corner from the passed-in-window's top-left corner
             [keybinds]:KeybindsList = DEFAULT_KEYBINDS_MENU: The keybinds of this Layout. Use `KeybindList()` if you don't want any.
+            [wrap_index]:bool = False: if the Layout should wrap (if you go up on the first entry go to the last and so on)
     """
 
     widget_type = "VerticalLayout"
@@ -53,10 +54,10 @@ class VerticalLayout(Widget):
         has_formatting=False
     )
 
-    def extra_init(self):
+    def extra_init(self, more_args):
         self.count_components = 0
 
-        self.keybind_translator = {
+        self.keybind_translator = { # TODO: find a better way
             "menu_function_up":     self.menu_up,
             "menu_function_down":   self.menu_down,
             "menu_function_select": self.menu_select,
@@ -67,6 +68,8 @@ class VerticalLayout(Widget):
         for x in self.components: new_components.append(x)
         self.components = []
         for x in new_components: self.add_component(x)
+
+        self.wrap_index = more_args.get("wrap_index", False)
 
     def resize_components(self, new_width:int, new_height:int) -> None: # TODO: implement scroll # TODO: implement diffrent parts of the given space (like -2 = 1/2 of the avalible space) and mixing multiple diffrent ratios
         # TODO: error handling: terminal space might not be enough to display everything
@@ -158,6 +161,17 @@ class VerticalLayout(Widget):
         if not (self.window is None):
             self.resize_components(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
 
+    def delete_component(self, index:int) -> None:
+        if index in range(0, len(self.components)):
+            self.components.pop(index)
+            self.count_components -= 1
+            if not (self.window is None):
+                self.resize_components(new_width=self.window.getmaxyx()[1], new_height=self.window.getmaxyx()[0])
+            if self.selected >= self.count_components - 1:
+                self.selected -= 1
+            if not (self.window is None):
+                self.component_pad.erase()
+
     def update_scroll(self):
         if self.can_scroll and self.count_components > 0:
             prev_y = -self.scroll
@@ -174,10 +188,17 @@ class VerticalLayout(Widget):
         if self.selected > 0:
             self.selected -= 1
             self.update_scroll()
+        elif (self.selected == 0) and self.wrap_index:
+            self.selected = self.count_components - 1
+            self.update_scroll()
 
     def menu_down(self) -> None:
         if self.selected < self.count_components - 1:
             self.selected += 1
+            self.update_scroll()
+        elif (self.selected == self.count_components - 1) and self.wrap_index:
+            self.selected = 0
+            self.scroll = 0
             self.update_scroll()
 
     def menu_select(self):
@@ -231,7 +252,7 @@ class Pages(Widget):
         has_formatting=False
     )
 
-    def extra_init(self):
+    def extra_init(self, more_args):
         self.count_components = 0
 
         self.keybind_translator = {

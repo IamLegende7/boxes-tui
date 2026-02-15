@@ -195,7 +195,10 @@ class Widget:
 
         ## Custom Init ##
         if hasattr(self, 'extra_init'):
-            self.extra_init()
+            try:
+                self.extra_init(more_args)
+            except Exception as e:
+                log(LogLevel.ERROR, f"{self.widget_id}: Could not run extra init: {e}")
 
     #-#-#-# NEEDED FUNCTIONS #-#-#-#
     def set_window(self, window) -> None:

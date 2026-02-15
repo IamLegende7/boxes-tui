@@ -39,7 +39,7 @@ class Label(Widget):
         has_formatting=True
     )
 
-    def extra_init(self):
+    def extra_init(self, more_args):
         # Set the wanted width according to the Text len
         actual_text = ""
         for text_piece in format_text(self.text):
@@ -104,7 +104,7 @@ class Textbox(Widget):
         has_formatting=True
     )
 
-    def extra_init(self):
+    def extra_init(self, more_args):
         # Set the wanted width and height
         self.text_lines = []
         self.text_lines += self.text.split('\n')

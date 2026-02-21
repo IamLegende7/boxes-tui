@@ -13,6 +13,7 @@ from boxes_tui.widgets.widget import WidgetSetting, Widget
 from boxes_tui.inputs import KeybindList
 from boxes_tui.looks import FormattedText, format_text
 from boxes_tui.logger import LogLevel, log
+from boxes_tui.exceptions import *
 
 # ### MAIN CLASS ###
 
@@ -123,6 +124,9 @@ class Box(Widget):
 
     def render_components(self, x:int=0, y:int=0) -> None:
         """Renders the Components of the `Box` Widget"""
+
+        if len(self.components) == 0:
+            return
 
         self.components[0][0].render_self(x=0, y=0, is_selected=self.show_selected)
 

@@ -28,7 +28,6 @@ While working I realized I needed two functions **a lot**: drawing boxes and mak
 So I thought: why not make a template for my other projects? - short story even shorter: boxes 1.0 was born!
 
 After a while, I came back to it, realised my code was absolute garbage and made a version 2.0: a PyPI library called boxes-tui.  
-(If you want to see that code: you can find it [here](https://github.com/IamLegende7/boxes-tui-deprecated))
 
 But I have learned much since then, (mainly that my boxes-tui-2 code was horrible) so I decided to make a version 3.0: the project you are reading the README of right now!
 

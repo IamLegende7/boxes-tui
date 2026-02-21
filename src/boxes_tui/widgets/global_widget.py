@@ -96,6 +96,8 @@ class Global(Widget):
         self.components[self.selected][0].render_components(x=x, y=y)
 
     def run(self) -> int:
+        if self.window is None:
+            return None
         self.render()
         
         try:

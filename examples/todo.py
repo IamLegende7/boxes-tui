@@ -2,7 +2,6 @@ from boxes_tui import wrapper, quit_app, find_widget
 from boxes_tui.widgets import Global, VerticalLayout, Pages, Label, Textbox, Box
 from boxes_tui.logger import *
 from boxes_tui.inputs import KeybindList, Key
-from boxes_tui.shared_vars import SHARED_VARS
 
 from dataclasses import dataclass
 import json
@@ -37,7 +36,6 @@ def main():
         global TODOS
         TODOS.clear()
         for x in load_todos(): TODOS.append(x)
-        log(LogLevel.CRITICAL, f"{TODOS}")
         add_todos()
 
     todo_tui = Global(
@@ -70,8 +68,6 @@ def main():
             keybinds=KeybindList(),
             selected = 1,
             show_selected=False,
-            window = "default",
-            widget_id="main_layout"
         )
     )
 
@@ -93,9 +89,6 @@ def main():
 
         i = 1
         for todo in TODOS:
-            log(LogLevel.ERROR, f"Selected: {find_widget("select_menu").selected}; Length: {len(find_widget("select_menu").components)}; Length TODOS: {len(TODOS)}; Count: {find_widget("select_menu").count_components}")
-            SHARED_VARS["STDSCR"].getch()
-            log(LogLevel.CRITICAL, f"TODO {todo.name}")
             find_widget("select_menu").add_component(
                 (
                     Label(
@@ -130,10 +123,6 @@ def main():
     prev_string = ""
     while True:
         if len(find_widget("select_menu").components) != 0:
-            log_string = f"Selected: {find_widget("select_menu").selected}; Length: {len(find_widget("select_menu").components)}; Length TODOS: {len(TODOS)}; Count: {find_widget("select_menu").count_components}"
-            if prev_string != log_string:
-                log(LogLevel.CRITICAL, log_string)
-                prev_string = log_string
             find_widget("header_label").change_text(str("//§C:green,bold§//boxes-tui//§bold§//  --  //§C:blue,bold§//TODO" + " " * (todo_tui.window.getmaxyx()[1]-2 - len("boxes_tui  --  TODO") - len(TODOS[find_widget("select_menu").selected].date) -1) + TODOS[find_widget("select_menu").selected].date))
         else:
             find_widget("header_label").change_text(str("//§C:green,bold§//boxes-tui//§bold§//  --  //§C:blue,bold§//TODO"))

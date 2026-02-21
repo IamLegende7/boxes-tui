@@ -68,5 +68,5 @@ from boxes_tui.widgets.widget import Widget
 # Some pre-build widgets: (at least all that are done)
 from boxes_tui.widgets.basic import Label, Textbox
 from boxes_tui.widgets.boxes import Box
-from boxes_tui.widgets.layouts import VerticalLayout, Pages
+from boxes_tui.widgets.layouts import VerticalLayout, HorizontalLayout, Pages
 from boxes_tui.widgets.global_widget import Global

@@ -309,7 +309,7 @@ class Widget:
                         log(LogLevel.WARNING, f'{self.widget_type}: ({self.widget_id}) Could not Process keypress "{keypress}": {e}')
 
         # tick_components
-        if pass_tick_on and self.infos.has_components:
+        if pass_tick_on and self.infos.has_components and len(self.components) > 0:
             if hasattr(self, 'tick_components'):
                 results += self.tick_components(keypress)
             else:
@@ -330,6 +330,8 @@ class Widget:
 
     def render(self, x:int=0, y:int=0, is_selected:bool=False) -> None:
         """ This function bundles `render_self` and `render_components`. It should only be called by the global scope, not by a widget! """
+        if self.window is None:
+            return
 
         self.render_self(x=x, y=y, is_selected=is_selected)
 

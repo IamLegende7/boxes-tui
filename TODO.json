@@ -79,5 +79,10 @@
         "name": "Optionaly display the scroll of VericalLayout using a scroll bar",
         "importance": 1,
         "date": "02 Feb 2026"
+    },
+    {
+        "name": "Load from file, like in Kivy",
+        "importance": 2,
+        "date": "15 Feb 2026"
     }
 ]
